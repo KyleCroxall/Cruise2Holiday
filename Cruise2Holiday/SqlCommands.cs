@@ -31,7 +31,7 @@ namespace Cruise2Holiday {
                 createTableCmd.ExecuteNonQuery();
                 createTableCmd.CommandText = "CREATE TABLE Trips (TripId INTEGER, PortId INTEGER, TripName TEXT, TripPrice TEXT);";
                 createTableCmd.ExecuteNonQuery();
-                createTableCmd.CommandText = "CREATE TABLE Passengers (PassengerId INTEGER, PassengerName TEXT, PassportNumber INTEGER);";
+                createTableCmd.CommandText = "CREATE TABLE Passengers (PassengerId INTEGER, CruiseId INTEGER, PassengerName TEXT, PassportNumber INTEGER);";
                 createTableCmd.ExecuteNonQuery();
                 createTableCmd.CommandText = "CREATE TABLE PassengerTrips (PassTripId INTEGER, PassengerId INTEGER);";
                 createTableCmd.ExecuteNonQuery();
@@ -74,6 +74,23 @@ namespace Cruise2Holiday {
                     insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '004', 'Hot Air Balloon Ride', '149.99' );";
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '004', 'Kayaking', '69.99' );";
+                    insertCmd.ExecuteNonQuery();
+
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('001', '001', 'Sarah Smith', '829429838');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('002', '001', 'Michael Johnson', '465713765');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('003', '002', 'Jessica Williams', '975743534');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('004', '002', 'John Brown', '273649583');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('005', '003', 'Emily Jones', '983649267');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('006', '003', 'David Anderson', '274629475');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('007', '004', 'Ashley Davis', '465394753');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('008', '004', 'Christopher Thompson', '937485726');";
                     insertCmd.ExecuteNonQuery();
 
 
