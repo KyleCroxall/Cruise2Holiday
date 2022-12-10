@@ -43,5 +43,19 @@ namespace Cruise2Holiday {
         public static void DisplayPortsOnCruise(List<Port> ports) {
             // Needs implementing
         }
+
+        public static void OutputAllPorts(List<Port> ports) {
+            Console.WriteLine(String.Format("{0, -10} {1, -20}", "PortID", "Port Name"));
+            for (int i = 0; i < ports.Count; i++) {
+                Console.WriteLine(String.Format("{0, -10} {1, -20}", ports[i].PortId, ports[i].PortName));
+            }
+        }
+
+        public static void OutputTripsAtPort(List<Trip> trips) {
+            Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", "TripID", "Trip Name", "Trip Cost"));
+            for (int i = 0; i < trips.Count; i++) {
+                Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", trips[i].TripId, trips[i].TripName, trips[i].Cost));
+            }
+        }
     }
 }

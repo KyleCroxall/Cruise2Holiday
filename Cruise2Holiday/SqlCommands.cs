@@ -295,14 +295,80 @@ namespace Cruise2Holiday {
             return nextKey;
         }
 
-        // Returns a list of port objects with their corresponding names and portids
+        // Returns a list of port objects with their corresponding names and portids to be output
         public static List<Port> GetPortsOnCruise(int cruiseId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
             List<Port> portsOnCruise = new List<Port>();
 
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
 
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT PortId FROM CruisePorts WHERE CruiseId = '{cruiseId}';";
 
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        int portId = int.Parse(reader.GetString(0));
+                        string portName = GetPortNameById(portId);
+                        Port port = new Port(portName, portId);
+                        portsOnCruise.Add(port);
+                    }
+                }
+            }
 
             return portsOnCruise;
+        }
+
+        public static List<Port> GetAllPorts() {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            List<Port> allPorts = new List<Port>();
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT * FROM Ports;";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        int portId = int.Parse(reader.GetString(0));
+                        string portName = reader.GetString(1);
+
+                        Port port = new Port(portName, portId);
+
+                        allPorts.Add(port);
+                    }
+                }
+            }
+            return allPorts;
+        }
+
+        public static List<Trip> GetTripsAtPort(int portId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            List<Trip> tripsAtPort = new List<Trip>();
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT TripId, TripName, TripPrice FROM Trips WHERE PortId = '{portId}';";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        double tripCost = double.Parse(reader.GetString(0));
+                        string tripName = reader.GetString(1);
+                        int tripId = int.Parse(reader.GetString(2));
+
+                        Trip trip = new Trip(tripCost, tripName, tripId);
+
+                        tripsAtPort.Add(trip);
+                    }
+                }
+            }
+            return tripsAtPort;
         }
 
         public static string GetPortNameById(int portId) {
@@ -324,5 +390,6 @@ namespace Cruise2Holiday {
             }
             return portName;
         }
+
     }
 }

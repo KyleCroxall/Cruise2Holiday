@@ -27,5 +27,6 @@
         public void AddTrip(Trip trip) {
             Trips.Add(trip);
         }
+        
     }
 }

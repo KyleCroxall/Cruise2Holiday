@@ -29,8 +29,27 @@
 
             //SqlCommands.RemoveTripFromPort(9, 8);
 
-            string portName = SqlCommands.GetPortNameById(8);
-            Console.WriteLine("Port name for portid 8 is: " + portName);
+            //string portName = SqlCommands.GetPortNameById(8);
+            //Console.WriteLine("Port name for portid 8 is: " + portName);
+
+            
+            Console.WriteLine("List of ports on cruise:");
+
+            List<Port> portsOnCruise = SqlCommands.GetPortsOnCruise(2);
+            for (int i = 0; i < portsOnCruise.Count; i++) {
+                Console.WriteLine($"Port ID: {portsOnCruise[i].PortId} - Port Name: {portsOnCruise[i].PortName}");
+            }
+
+            Console.WriteLine();
+            //Console.WriteLine($"Which port do you wish to remove a trip from? (please");
+            
+
+            Menu.OutputAllPorts(SqlCommands.GetAllPorts());
+
+            Console.WriteLine($"Enter the ID of the port you wish to remove a trip from: ");
+            int portSelected = int.Parse(Console.ReadLine());
+
+            Menu.OutputTripsAtPort(SqlCommands.GetTripsAtPort(portSelected));
         }
     }
 }
