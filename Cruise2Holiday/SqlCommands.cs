@@ -19,9 +19,11 @@ namespace Cruise2Holiday {
                 delTableCmd.ExecuteNonQuery();
                 delTableCmd.CommandText = "DROP TABLE IF EXISTS Passengers;";
                 delTableCmd.ExecuteNonQuery();
-                delTableCmd.CommandText = "DROP TABLE IF EXISTS PassengerTrips;";
-                delTableCmd.ExecuteNonQuery();
                 delTableCmd.CommandText = "DROP TABLE IF EXISTS CruisePorts;";
+                delTableCmd.ExecuteNonQuery();
+                delTableCmd.CommandText = "DROP TABLE IF EXISTS TripPassengers;";
+                delTableCmd.ExecuteNonQuery();
+                delTableCmd.CommandText = "DROP TABLE IF EXISTS CruisePassengers;";
                 delTableCmd.ExecuteNonQuery();
 
                 var createTableCmd = connection.CreateCommand();
@@ -57,7 +59,7 @@ namespace Cruise2Holiday {
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('002', 'Barcelona');";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('003', 'Athens);";
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('003', 'Athens');";
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('004', 'Greece');";
                     insertCmd.ExecuteNonQuery();
@@ -160,10 +162,6 @@ namespace Cruise2Holiday {
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('008', '008');";
                     insertCmd.ExecuteNonQuery();
-
-
-                    //createTableCmd.CommandText = "CREATE TABLE TripPassengers (TripId INTEGER, PassengerId INTEGER);";
-                    //createTableCmd.ExecuteNonQuery();
 
                     transaction.Commit();
                 }

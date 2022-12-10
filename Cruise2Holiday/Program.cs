@@ -5,6 +5,10 @@
             if (File.Exists("./Cruises.db") != true) {
                 SqlCommands.CreateNewDatabase();
             }
+
+            while(true) {
+                Menu.DisplayMainMenu();
+            }
         }
     }
 }

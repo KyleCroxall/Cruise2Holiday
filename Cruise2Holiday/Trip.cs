@@ -21,6 +21,7 @@
         }
         public void AddPassenger(Passenger passenger) {
             // Check if necessary, validation may need performing before adding passenger
+            // SqlCommands.CheckIfPassengerExists...
         }
     }
 }
