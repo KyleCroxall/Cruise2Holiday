@@ -33,10 +33,13 @@ namespace Cruise2Holiday {
                 createTableCmd.ExecuteNonQuery();
                 createTableCmd.CommandText = "CREATE TABLE Passengers (PassengerId INTEGER, CruiseId INTEGER, PassengerName TEXT, PassportNumber INTEGER);";
                 createTableCmd.ExecuteNonQuery();
-                createTableCmd.CommandText = "CREATE TABLE PassengerTrips (PassTripId INTEGER, PassengerId INTEGER);";
+                createTableCmd.CommandText = "CREATE TABLE CruisePorts (CruiseId INTEGER, PortId INTEGER);";
                 createTableCmd.ExecuteNonQuery();
-                createTableCmd.CommandText = "CREATE TABLE CruisePorts (CruisePortId INTEGER, CruiseId INTEGER, PortId INTEGER);";
+                createTableCmd.CommandText = "CREATE TABLE TripPassengers (TripId INTEGER, PassengerId INTEGER);";
                 createTableCmd.ExecuteNonQuery();
+                createTableCmd.CommandText = "CREATE TABLE CruisePassengers (CruiseId INTEGER, PassengerId INTEGER);";
+                createTableCmd.ExecuteNonQuery();
+
 
                 using (var transaction = connection.BeginTransaction()) {
                     var insertCmd = connection.CreateCommand();
@@ -58,22 +61,34 @@ namespace Cruise2Holiday {
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('004', 'Greece');";
                     insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('005', 'Turkey');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('006', 'Venice');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('007', 'Cyprus');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('008', 'Croatia');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('009', 'Italy');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO Ports (PortId, PortName) VALUES ('010', 'Marseille');";
+                    insertCmd.ExecuteNonQuery();
 
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('001', '001', 'White Water Rafting', '89.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('001', '001', 'White Water Rafting', '89.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('002', '001', 'Off-Road Biking', '59.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('002', '002', 'Off-Road Biking', '59.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('003', '002', 'Sky-Diving', '159.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('003', '003', 'Sky-Diving', '159.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('004', '002', 'Gliding', '129.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('004', '004', 'Gliding', '129.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '003', 'Rock Climbing', '39.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('005', '005', 'Rock Climbing', '39.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '003', 'Bungee Jumping', '199.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('006', '006', 'Bungee Jumping', '199.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '004', 'Hot Air Balloon Ride', '149.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('007', '007', 'Hot Air Balloon Ride', '149.99' );";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Trips (TripsId, PortId, TripName, TripPrice) VALUES ('005', '004', 'Kayaking', '69.99' );";
+                    insertCmd.CommandText = "INSERT INTO Trips (TripId, PortId, TripName, TripPrice) VALUES ('008', '008', 'Kayaking', '69.99' );";
                     insertCmd.ExecuteNonQuery();
 
                     insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('001', '001', 'Sarah Smith', '829429838');";
@@ -90,9 +105,65 @@ namespace Cruise2Holiday {
                     insertCmd.ExecuteNonQuery();
                     insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('007', '004', 'Ashley Davis', '465394753');";
                     insertCmd.ExecuteNonQuery();
-                    insertCmd.CommandText = "INSERT INTO Passengers (PassengerId, CruiseId, PassengerName, PassportNumber) VALUES ('008', '004', 'Christopher Thompson', '937485726');";
+
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('001', '003');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('001', '007');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('001', '005');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('002', '007');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('002', '002');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('002', '004');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('003', '001');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('003', '002');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('003', '006');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('004', '005');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('004', '008');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('004', '002');";
                     insertCmd.ExecuteNonQuery();
 
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('001', '001');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('001', '002');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('002', '003');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('002', '004');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('003', '005');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('003', '006');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('004', '007');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO CruisePassengers (CruiseId, PassengerId) VALUES ('004', '008');";
+                    insertCmd.ExecuteNonQuery();
+
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('005', '001');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('002', '003');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('002', '005');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('006', '006');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('001', '006');";
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.CommandText = "INSERT INTO TripPassengers (TripId, PassengerId) VALUES ('008', '008');";
+                    insertCmd.ExecuteNonQuery();
+
+
+                    //createTableCmd.CommandText = "CREATE TABLE TripPassengers (TripId INTEGER, PassengerId INTEGER);";
+                    //createTableCmd.ExecuteNonQuery();
 
                     transaction.Commit();
                 }
