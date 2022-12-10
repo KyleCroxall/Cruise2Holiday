@@ -11,7 +11,7 @@
             //}
 
             //int nextPrimaryKey = SqlCommands.GetNextPrimaryKey("CruiseId", "Cruises");
-            int nextPrimaryKey = SqlCommands.GetNextPrimaryKey("PortId", "Ports");
+            int nextPrimaryKey = SqlCommands.GetNextPrimaryKey("TripId", "Trips");
 
             //SqlCommands.AddCruise(nextPrimaryKey, "Testing of the Seas");
             //SqlCommands.AddPort(nextPrimaryKey, "Southampton");
@@ -23,9 +23,14 @@
 
 
             // Output ports here
-            Console.WriteLine("Which port would you like to add a trip to?");
-            string portSelected  = Console.ReadLine();
-            SqlCommands.AddTripToPort(nextPrimaryKey, 8, "Testing trip", "69.99");
+            //Console.WriteLine("Which port would you like to add a trip to?");
+            //string portSelected  = Console.ReadLine();
+            //SqlCommands.AddTripToPort(nextPrimaryKey, 8, "Testing trip", "69.99");
+
+            //SqlCommands.RemoveTripFromPort(9, 8);
+
+            string portName = SqlCommands.GetPortNameById(8);
+            Console.WriteLine("Port name for portid 8 is: " + portName);
         }
     }
 }

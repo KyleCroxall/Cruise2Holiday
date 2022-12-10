@@ -39,5 +39,9 @@ namespace Cruise2Holiday {
         public static void DisplayCruisesOnSystem() {
             // Needs implementing
         }
+
+        public static void DisplayPortsOnCruise(List<Port> ports) {
+            // Needs implementing
+        }
     }
 }

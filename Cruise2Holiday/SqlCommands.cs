@@ -244,10 +244,6 @@ namespace Cruise2Holiday {
             }
         }
 
-        //public static void OutputPortsOnCruise() {
-
-        //}
-
         public static void AddTripToPort(int nextPrimaryKey, int portId, string tripName, string tripPrice) {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
 
@@ -261,6 +257,21 @@ namespace Cruise2Holiday {
                 insertCmd.CommandText = $"INSERT INTO Trips (TripId, PortID, TripName, TripPrice) VALUES ('{nextPrimaryKey}', '{portId}', '{tripName}', '{tripPrice}');";
                 insertCmd.ExecuteNonQuery();
 
+            }
+        }
+
+        public static void RemoveTripFromPort(int tripId, int portId) {
+
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var deleteCmd = connection.CreateCommand();
+
+                deleteCmd.CommandText = $"DELETE FROM Trips WHERE TripId = '{tripId}' AND PortId = '{portId}';";
+                deleteCmd.ExecuteNonQuery();
             }
         }
 
@@ -282,6 +293,36 @@ namespace Cruise2Holiday {
                 }
             }
             return nextKey;
+        }
+
+        // Returns a list of port objects with their corresponding names and portids
+        public static List<Port> GetPortsOnCruise(int cruiseId) {
+            List<Port> portsOnCruise = new List<Port>();
+
+
+
+
+            return portsOnCruise;
+        }
+
+        public static string GetPortNameById(int portId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            string portName = null;
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT PortName FROM Ports WHERE PortId = '{portId}';";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        portName = reader.GetString(0);
+                    }
+                }
+            }
+            return portName;
         }
     }
 }
