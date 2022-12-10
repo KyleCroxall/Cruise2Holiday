@@ -35,5 +35,9 @@ namespace Cruise2Holiday {
             Console.WriteLine("3. Remove Passenger from Cruise");
             Console.WriteLine("5. Exit");
         }
+
+        public static void DisplayCruisesOnSystem() {
+            // Needs implementing
+        }
     }
 }

@@ -1,6 +1,10 @@
 ﻿using Microsoft.Data.Sqlite;
 
 namespace Cruise2Holiday {
+
+    // TODO: Could remove nested using statements.
+    // TODO: Add writelines for 'cruise added' or 'cruise removed' etc, would probably be best performed in the view class
+    // TODO: May need validation adding to check if cruiseNum is present in the database in AddCruise method
     internal static class SqlCommands {
         public static void CreateNewDatabase() {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
@@ -168,6 +172,116 @@ namespace Cruise2Holiday {
             }
 
 
+        }
+
+        public static void AddCruise(int nextPrimaryKey, string cruiseName) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var insertCmd = connection.CreateCommand();
+
+                insertCmd.CommandText = $"INSERT INTO Cruises (CruiseId, CruiseName) VALUES ('{nextPrimaryKey}', '{cruiseName}');";
+                insertCmd.ExecuteNonQuery();
+
+                //using (var transaction = connection.BeginTransaction()) {
+                //    var insertCmd = connection.CreateCommand();
+
+                //    insertCmd.CommandText = $"INSERT INTO Cruises (CruiseId, CruiseName) VALUES ('{nextPrimaryKey}', '{cruiseName}');";
+                //    insertCmd.ExecuteNonQuery();
+
+                //    transaction.Commit();
+                //}
+            }
+        }
+
+        public static void RemoveCruise(int cruiseId) {
+            
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var deleteCmd = connection.CreateCommand();
+
+                deleteCmd.CommandText = $"DELETE FROM Cruises WHERE CruiseId = '{cruiseId}';";
+                deleteCmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void AddPort(int nextPrimaryKey, string portName) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var insertCmd = connection.CreateCommand();
+
+                insertCmd.CommandText = $"INSERT INTO Ports (PortId, PortName) VALUES ('{nextPrimaryKey}', '{portName}');";
+                insertCmd.ExecuteNonQuery();
+
+            }
+        }
+
+        public static void RemovePort(int portId) {
+
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var deleteCmd = connection.CreateCommand();
+
+                deleteCmd.CommandText = $"DELETE FROM Ports WHERE PortId = '{portId}';";
+                deleteCmd.ExecuteNonQuery();
+            }
+        }
+
+        //public static void OutputPortsOnCruise() {
+
+        //}
+
+        public static void AddTripToPort(int nextPrimaryKey, int portId, string tripName, string tripPrice) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var insertCmd = connection.CreateCommand();
+
+                insertCmd.CommandText = $"INSERT INTO Trips (TripId, PortID, TripName, TripPrice) VALUES ('{nextPrimaryKey}', '{portId}', '{tripName}', '{tripPrice}');";
+                insertCmd.ExecuteNonQuery();
+
+            }
+        }
+
+        public static int GetNextPrimaryKey(string primaryKeyField, string tableName) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            int nextKey = 0;
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT MAX({primaryKeyField}) + 1 AS next_id FROM {tableName};";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        nextKey = reader.GetInt32(0);
+                    }
+                }
+            }
+            return nextKey;
         }
     }
 }
