@@ -74,5 +74,14 @@ namespace Cruise2Holiday {
                 Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", trips[i][0].TripId, trips[i][0].TripName, trips[i][0].Cost));
             }
         }
+
+        internal static void DisplayAddCruiseMenu() {
+            Console.Clear();
+            Console.WriteLine("Enter the name of the cruise you'd like to add (or type 'cancel' to cancel): ");
+        }
+
+        internal static void OutputReturningToPreviousMenu() {
+            Console.WriteLine("Returning to previous menu");
+        }
     }
 }

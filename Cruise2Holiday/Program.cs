@@ -6,7 +6,12 @@
                 DatabaseManager.CreateNewDatabase();
             }
 
-            ContinueInteractingWithMenu();
+            CruiseManager admin = CruiseManager.GetInstance();
+
+            admin.Start();
+            
+
+            
         }
 
         public static void ContinueInteractingWithMenu() {
