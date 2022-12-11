@@ -36,8 +36,16 @@ namespace Cruise2Holiday {
             Console.WriteLine("5. Exit");
         }
 
-        public static void DisplayCruisesOnSystem() {
+        public static void DisplayTripsOnCruise(int cruiseId) {
+
+        }
+
+        public static void DisplayCruisesOnSystem(List<Cruise> cruises) {
             // Needs implementing
+            Console.WriteLine(String.Format("{0, -10} {1, -20}", "CruiseID", "Cruise Name"));
+            for (int i = 0; i < cruises.Count; i++) {
+                Console.WriteLine(String.Format("{0, -10} {1, -20}", cruises[i].CruiseId, cruises[i].CruiseName));
+            }
         }
 
         public static void DisplayPortsOnCruise(List<Port> ports) {
@@ -52,9 +60,18 @@ namespace Cruise2Holiday {
         }
 
         public static void OutputTripsAtPort(List<Trip> trips) {
+            Console.WriteLine("Trips At Port:");
+            Console.WriteLine();
             Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", "TripID", "Trip Name", "Trip Cost"));
             for (int i = 0; i < trips.Count; i++) {
                 Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", trips[i].TripId, trips[i].TripName, trips[i].Cost));
+            }
+        }
+
+        public static void OutputTripsOnCruise(List<List<Trip>> trips) {
+            Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", "Trip ID", "Trip Name", "Trip Cost"));
+            for (int i = 0; i < trips.Count; i++) {
+                Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", trips[i][0].TripId, trips[i][0].TripName, trips[i][0].Cost));
             }
         }
     }

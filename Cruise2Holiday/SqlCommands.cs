@@ -295,6 +295,31 @@ namespace Cruise2Holiday {
             return nextKey;
         }
 
+        public static List<Cruise> GetAllCruises() {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            List<Cruise> allCruises = new List<Cruise>();
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT * FROM Cruises;";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        int cruiseId = int.Parse(reader.GetString(0));
+                        string cruiseName = reader.GetString(1);
+
+                        Cruise cruise = new Cruise(cruiseName, cruiseId);
+
+                        allCruises.Add(cruise);
+                    }
+                }
+            }
+            return allCruises;
+        }
+
         // Returns a list of port objects with their corresponding names and portids to be output
         public static List<Port> GetPortsOnCruise(int cruiseId) {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
@@ -358,9 +383,11 @@ namespace Cruise2Holiday {
 
                 using (var reader = selectCmd.ExecuteReader()) {
                     while (reader.Read()) {
-                        double tripCost = double.Parse(reader.GetString(0));
+                        int tripId = int.Parse(reader.GetString(0));
                         string tripName = reader.GetString(1);
-                        int tripId = int.Parse(reader.GetString(2));
+                        double tripCost = double.Parse(reader.GetString(2));
+                        
+                        
 
                         Trip trip = new Trip(tripCost, tripName, tripId);
 
@@ -369,6 +396,18 @@ namespace Cruise2Holiday {
                 }
             }
             return tripsAtPort;
+        }
+
+        public static List<List<Trip>> GetTripsOnCruise(int cruiseId) {
+            List<Port> portsOnCruise = GetPortsOnCruise(cruiseId);
+            List<List<Trip>> tripsOnCruise = new List<List<Trip>>();
+            
+            foreach (var port in portsOnCruise) {
+                List<Trip> tripsAtPort = GetTripsAtPort(port.PortId);
+                tripsOnCruise.Add(tripsAtPort);
+            }
+
+            return tripsOnCruise;
         }
 
         public static string GetPortNameById(int portId) {
