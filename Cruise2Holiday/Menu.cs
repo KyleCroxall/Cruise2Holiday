@@ -101,6 +101,15 @@ namespace Cruise2Holiday {
             Console.WriteLine("Enter the name of the port you'd like to add (or type 'cancel' to cancel): ");
         }
 
+        internal static void DisplayAddTripNameString() {
+            Console.Clear();
+            Console.WriteLine("Enter the name of the trip you'd like to add (or type 'cancel' to cancel): ");
+        }
+
+        internal static void DisplayAddTripPriceString() {
+            Console.WriteLine("Enter the price (or type 'cancel' to cancel):");
+        }
+
         internal static void OutputReturningToPreviousMenu() {
             Console.WriteLine("Returning to previous menu, press any key.");
             Console.ReadKey();
@@ -117,8 +126,36 @@ namespace Cruise2Holiday {
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
         }
+        internal static void OutputCruiseRemoved() {
+            Console.WriteLine("Cruise removed!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
+
+        internal static void OutputTripAdded() {
+            Console.WriteLine("Trip added!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
+
+
+        internal static void OutputTripRemoved() {
+            Console.WriteLine("Trip removed!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
         internal static void OutputPortAdded() {
             Console.WriteLine("Port added!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
+
+        internal static void OutputPortRemoved() {
+            Console.WriteLine("Port removed!");
             Console.WriteLine();
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
@@ -142,5 +179,14 @@ namespace Cruise2Holiday {
             Console.WriteLine("Enter the ID of the port you'd like to remove: ");
         }
 
+        internal static void OutputChooseTripToRemoveString() {
+            Console.WriteLine("Enter the ID of the trip you'd like to remove (or type 'cancel' to cancel): ");
+        }
+
+        internal static void OutputChoosePortToAddTripToString() {
+            Console.WriteLine("Enter the ID of the port you'd like to add a trip to: ");
+        }
+
+        
     }
 }

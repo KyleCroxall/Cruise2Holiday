@@ -29,7 +29,7 @@ namespace Cruise2Holiday {
                 while (true) {
                     Menu.DisplayMainMenu();
                     string selectionInput = Console.ReadLine();
-                    if (Validation.CheckIsValidIntInRange(selectionInput, 1, 7)) {
+                    if (Validation.CheckIsValidIntInRange(selectionInput, 1, 13)) {
                         selection = int.Parse(selectionInput);
                         break;
                     } else {
@@ -56,30 +56,39 @@ namespace Cruise2Holiday {
                         RemovePort();
                         break;
                     case 5:
-                        // Add Port
+                        // Add Trip To Port
+                        AddTripToPort();
                         
-                        string nameOfPort = Console.ReadLine();
-                        int portPrimaryKey = DatabaseManager.GetNextPrimaryKey("PortId", "Ports");
-                        DatabaseManager.AddPort(portPrimaryKey, nameOfPort);
-                        Console.WriteLine("Port added!");
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
                         break;
                     case 6:
-                        // Remove Port
-                        Console.Clear();
-                        Console.WriteLine("List Of Ports:");
-                        Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
-                        Console.WriteLine("Enter the ID of the port you'd like to remove: ");
-                        int portIdToRemove = int.Parse(Console.ReadLine());
-                        DatabaseManager.RemovePort(portIdToRemove);
-                        Console.WriteLine("Port removed!");
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
+                        // Remove Trip From Port
+                        RemoveTripFromPort();
                         break;
                     case 7:
+                        // Add Port To Cruise
+
+                        break;
+                    case 8:
+                        // Remove Port From Cruise
+
+                        break;
+                    case 9:
+                        // Add Passenger To Cruise
+
+                        break;
+                    case 10:
+                        // Remove Passenger From Cruise
+
+                        break;
+                    case 11:
+                        // Add Passenger To Trip
+
+                        break;
+                    case 12:
+                        // Remove Passenger From Trip
+
+                        break;
+                    case 13:
                         // Exit
                         Console.WriteLine("Exiting program, press any key to exit");
                         Console.ReadKey();
@@ -114,7 +123,7 @@ namespace Cruise2Holiday {
                     foreach(Cruise c in cruises) {
                         if(c.CruiseId == selection) {
                             DatabaseManager.RemoveCruise(selection);
-                            Menu.OutputCruiseAdded();
+                            Menu.OutputCruiseRemoved();
                             cruiseFound = true;
                             break;
                         }
@@ -154,7 +163,92 @@ namespace Cruise2Holiday {
                     foreach (Port p in ports) {
                         if (p.PortId == selection) {
                             DatabaseManager.RemovePort(selection);
-                            Menu.OutputCruiseAdded();
+                            Menu.OutputPortRemoved();
+                            portFound = true;
+                            break;
+                        }
+                    }
+                    if (portFound != true) {
+                        Menu.OutputInvalidInputAlert();
+                    }
+                } else {
+                    Menu.OutputInvalidInputAlert();
+                }
+            }
+        }
+
+        public void AddTripToPort() {
+            Menu.OutputListOfPortsString();
+            Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
+            bool portFound = false;
+            while (!portFound) {
+                Menu.OutputChoosePortToAddTripToString();
+                string userInput = Console.ReadLine();
+                int selection;
+                if (int.TryParse(userInput, out selection)) {
+                    List<Port> ports = DatabaseManager.GetAllPorts();
+                    foreach (Port p in ports) {
+                        if (p.PortId == selection) {
+                            int nextPrimaryKey = DatabaseManager.GetNextPrimaryKey("TripId", "Trips");
+                            Menu.DisplayAddTripNameString();
+                            string tripName = Console.ReadLine();
+                            Menu.DisplayAddTripPriceString();
+                            string tripPrice = Console.ReadLine();
+                            DatabaseManager.AddTripToPort(nextPrimaryKey, selection, tripName, tripPrice);
+                            Menu.OutputTripAdded();
+                            portFound = true;
+                            break;
+                        }
+                    }
+                    if (portFound != true) {
+                        Menu.OutputInvalidInputAlert();
+                    }
+                } else {
+                    Menu.OutputInvalidInputAlert();
+                }
+            }
+
+        }
+
+        public void RemoveTripFromPort() {
+            Menu.OutputListOfPortsString();
+            Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
+            bool portFound = false;
+            while(!portFound) {
+                Console.WriteLine("Enter the PortID of a port you'd like to remove a trip from: ");
+                string userInput = Console.ReadLine();
+                int selection;
+                if (int.TryParse(userInput, out selection)) {
+                    List<Port> ports = DatabaseManager.GetAllPorts();
+                    foreach (Port p in ports) {
+                        if (p.PortId == selection) {
+                            List<Trip> trips = DatabaseManager.GetTripsAtPort(selection);
+                            Menu.OutputTripsAtPort(DatabaseManager.GetTripsAtPort(selection));
+                            bool tripFound = false;
+                            while(!tripFound) {
+                                Menu.OutputChooseTripToRemoveString();
+                                string secondInput = Console.ReadLine();
+                                if(secondInput == "cancel") {
+                                    Menu.OutputReturningToPreviousMenu();
+                                    return;
+                                }
+                                int secondSelection;
+                                if (int.TryParse(secondInput, out secondSelection)) {
+                                    foreach (Trip t in trips) {
+                                        if (t.TripId == secondSelection) {
+                                            DatabaseManager.RemoveTripFromPort(secondSelection, selection);
+                                            Menu.OutputTripRemoved();
+                                            tripFound = true;
+                                        }
+                                    }
+                                    if(tripFound != true) {
+                                        Menu.OutputInvalidInputAlert();
+                                    }
+                                } else {
+                                    Menu.OutputInvalidInputAlert();
+                                }
+                            }
+                            //Console.ReadKey();
                             portFound = true;
                             break;
                         }
