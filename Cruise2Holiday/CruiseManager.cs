@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Cruise2Holiday {
+
+    //TODO Could add validation inside RemoveCruise that checks if the integer added is present in the list of 
     internal sealed class CruiseManager {
         private CruiseManager() { 
         }
@@ -38,48 +40,24 @@ namespace Cruise2Holiday {
 
                 switch (selection) {
                     case 1:
-                        // View Cruise
-
+                        // Add Cruise
+                        AddCruise();
                         break;
                     case 2:
-                        // Add Cruise
-                        Console.Clear();
-                        Console.WriteLine("Enter the name of the cruise you'd like to add: ");
-                        string nameOfCruise = Console.ReadLine();
-                        int cruisePrimaryKey = DatabaseManager.GetNextPrimaryKey("CruiseId", "Cruises");
-                        DatabaseManager.AddCruise(cruisePrimaryKey, nameOfCruise);
-                        Console.WriteLine("Cruise added!");
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
+                        // Remove Cruise
+                        RemoveCruise();
                         break;
                     case 3:
-                        // Remove Cruise
-                        Console.Clear();
-                        Console.WriteLine("List Of Cruises:");
-                        Menu.DisplayCruisesOnSystem(DatabaseManager.GetAllCruises());
-                        Console.WriteLine("Enter the ID of the cruise you'd like to remove: ");
-                        int cruiseIdToRemove = int.Parse(Console.ReadLine());
-                        DatabaseManager.RemoveCruise(cruiseIdToRemove);
-                        Console.WriteLine("Cruise removed!");
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
+                        // Add Port
+                        AddPort();
                         break;
                     case 4:
-                        // View Ports
-                        Console.Clear();
-                        Console.WriteLine("List Of Cruises:");
-                        Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
-                        // Give ability to go further into next menus
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
+                        // Remove Port
+                        RemovePort();
                         break;
                     case 5:
                         // Add Port
-                        Console.Clear();
-                        Console.WriteLine("Enter the name of the port you'd like to add: ");
+                        
                         string nameOfPort = Console.ReadLine();
                         int portPrimaryKey = DatabaseManager.GetNextPrimaryKey("PortId", "Ports");
                         DatabaseManager.AddPort(portPrimaryKey, nameOfPort);
@@ -112,7 +90,7 @@ namespace Cruise2Holiday {
         }
 
         public void AddCruise() {
-            Menu.DisplayAddCruiseMenu();
+            Menu.DisplayAddCruiseString();
             string nameOfCruise = Console.ReadLine();
             if(nameOfCruise == "cancel") {
                 Menu.OutputReturningToPreviousMenu();
@@ -120,10 +98,83 @@ namespace Cruise2Holiday {
             }
             int nextPrimaryKey = DatabaseManager.GetNextPrimaryKey("CruiseId", "Cruises");
             DatabaseManager.AddCruise(nextPrimaryKey, nameOfCruise);
+            Menu.OutputCruiseAdded();
         }
 
         public void RemoveCruise() {
+            Menu.OutputListOfCruisesString();
+            Menu.DisplayCruisesOnSystem(DatabaseManager.GetAllCruises());
+            bool cruiseFound = false;
+            while(!cruiseFound) {
+                Menu.OutputChooseCruiseToRemoveString();
+                string userInput = Console.ReadLine();
+                int selection;
+                if (int.TryParse(userInput, out selection)) {
+                    List<Cruise> cruises = DatabaseManager.GetAllCruises();
+                    foreach(Cruise c in cruises) {
+                        if(c.CruiseId == selection) {
+                            DatabaseManager.RemoveCruise(selection);
+                            Menu.OutputCruiseAdded();
+                            cruiseFound = true;
+                            break;
+                        }
+                    }
+                    if(cruiseFound != true) {
+                        Menu.OutputInvalidInputAlert();
+                    }
+                } else {
+                    Menu.OutputInvalidInputAlert();
+                }
+            }
 
+        }
+
+        public void AddPort() {
+            Menu.DisplayAddPortString();
+            string nameOfPort = Console.ReadLine();
+            if(nameOfPort == "cancel") {
+                Menu.OutputReturningToPreviousMenu();
+                return;
+            }
+            int nextPrimaryKey = DatabaseManager.GetNextPrimaryKey("PortId", "Ports");
+            DatabaseManager.AddPort(nextPrimaryKey, nameOfPort);
+            Menu.OutputPortAdded();
+        }
+
+        public void RemovePort() {
+            Menu.OutputListOfPortsString();
+            Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
+            bool portFound = false;
+            while(!portFound) {
+                Menu.OutputChoosePortToRemoveString();
+                string userInput = Console.ReadLine();
+                int selection;
+                if (int.TryParse(userInput, out selection)) {
+                    List<Port> ports = DatabaseManager.GetAllPorts();
+                    foreach (Port p in ports) {
+                        if (p.PortId == selection) {
+                            DatabaseManager.RemovePort(selection);
+                            Menu.OutputCruiseAdded();
+                            portFound = true;
+                            break;
+                        }
+                    }
+                    if (portFound != true) {
+                        Menu.OutputInvalidInputAlert();
+                    }
+                } else {
+                    Menu.OutputInvalidInputAlert();
+                }
+            }
+        }
+
+        public void ViewPorts() {
+            Menu.OutputListOfPortsString();
+            Menu.OutputAllPorts(DatabaseManager.GetAllPorts());
+            // Give ability to go further into next menus
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
         }
 
     }

@@ -2,6 +2,7 @@
     internal class Passenger {
         private string name;
         private int passportNum;
+        private int passengerId;
 
         public string Name {
             get { return name; }
@@ -12,9 +13,15 @@
             private set { passportNum = value; }
         }
 
-        public Passenger(string name, int passportNum) {
+        public int PassengerId {
+            get { return passengerId; }
+            private set { passengerId = value; }
+        }
+
+        public Passenger(string name, int passportNum, int passengerId) {
             Name = name;
             PassportNum = passportNum;
+            PassengerId = passengerId;
         }
     }
 }
