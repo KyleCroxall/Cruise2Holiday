@@ -5,7 +5,7 @@ namespace Cruise2Holiday {
     // TODO: Could remove nested using statements.
     // TODO: Add writelines for 'cruise added' or 'cruise removed' etc, would probably be best performed in the view class
     // TODO: May need validation adding to check if cruiseNum is present in the database in AddCruise method
-    internal static class SqlCommands {
+    internal static class DatabaseManager {
         public static void CreateNewDatabase() {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
 
@@ -186,15 +186,6 @@ namespace Cruise2Holiday {
 
                 insertCmd.CommandText = $"INSERT INTO Cruises (CruiseId, CruiseName) VALUES ('{nextPrimaryKey}', '{cruiseName}');";
                 insertCmd.ExecuteNonQuery();
-
-                //using (var transaction = connection.BeginTransaction()) {
-                //    var insertCmd = connection.CreateCommand();
-
-                //    insertCmd.CommandText = $"INSERT INTO Cruises (CruiseId, CruiseName) VALUES ('{nextPrimaryKey}', '{cruiseName}');";
-                //    insertCmd.ExecuteNonQuery();
-
-                //    transaction.Commit();
-                //}
             }
         }
 
@@ -261,7 +252,6 @@ namespace Cruise2Holiday {
         }
 
         public static void RemoveTripFromPort(int tripId, int portId) {
-
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
             connectionStringBuilder.DataSource = "./Cruises.db";
 
@@ -271,6 +261,35 @@ namespace Cruise2Holiday {
                 var deleteCmd = connection.CreateCommand();
 
                 deleteCmd.CommandText = $"DELETE FROM Trips WHERE TripId = '{tripId}' AND PortId = '{portId}';";
+                deleteCmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void AddPortToCruise(int cruiseId, int portId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var insertCmd = connection.CreateCommand();
+
+                insertCmd.CommandText = $"INSERT INTO CruisePorts (CruiseId, PortId) VALUES ('{cruiseId}', '{portId}');";
+                insertCmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void RemovePortFromCruise(string cruiseId, int portId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var deleteCmd = connection.CreateCommand();
+
+                deleteCmd.CommandText = $"DELETE FROM CruisePorts WHERE CruiseId = '{cruiseId}' AND PortId = '{portId}';";
                 deleteCmd.ExecuteNonQuery();
             }
         }
@@ -410,6 +429,35 @@ namespace Cruise2Holiday {
             return tripsOnCruise;
         }
 
+<<<<<<< HEAD:Cruise2Holiday/DatabaseManager.cs
+        public static List<Passenger> GetPassengersOnCruise(int cruiseId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            List<Passenger> passengers = new List<Passenger>();
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT PassengerId FROM CruisePassengers WHERE CruiseId = '{cruiseId}';";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        int passengerID = int.Parse(reader.GetString(0));
+                        string passengerName = GetPassengerNameById(passengerID);
+                        int passengerPassport = int.Parse(GetPassengerPassportById(passengerID));
+
+                        Passenger passenger = new Passenger(passengerName, passengerPassport, passengerID);
+
+                        passengers.Add(passenger);
+                    }
+                }
+            }
+            return passengers;
+        }
+
+=======
+>>>>>>> ba6669bbe374c3c1684f4c2c2a8d5590d9539b0c:Cruise2Holiday/SqlCommands.cs
         public static string GetPortNameById(int portId) {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
             connectionStringBuilder.DataSource = "./Cruises.db";
@@ -428,6 +476,46 @@ namespace Cruise2Holiday {
                 }
             }
             return portName;
+        }
+
+        public static string GetPassengerNameById(int passengerId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            string passengerName = null;
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT PassengerName FROM Passengers WHERE PassengerId = '{passengerId}';";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        passengerName = reader.GetString(0);
+                    }
+                }
+            }
+            return passengerName;
+        }
+
+        public static string GetPassengerPassportById(int passengerId) {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "./Cruises.db";
+            string passportNum = null;
+
+            using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString)) {
+                connection.Open();
+
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = $"SELECT PassportNumber FROM Passengers WHERE PassengerId = '{passengerId}';";
+
+                using (var reader = selectCmd.ExecuteReader()) {
+                    while (reader.Read()) {
+                        passportNum = reader.GetString(0);
+                    }
+                }
+            }
+            return passportNum;
         }
 
     }

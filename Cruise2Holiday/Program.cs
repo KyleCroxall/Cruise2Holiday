@@ -1,11 +1,14 @@
 ﻿namespace Cruise2Holiday {
     internal class Program {
-        // Perhaps use Command pattern
         static void Main(string[] args) {
             if (File.Exists("./Cruises.db") != true) {
-                SqlCommands.CreateNewDatabase();
+                DatabaseManager.CreateNewDatabase();
             }
 
+<<<<<<< HEAD
+            CruiseManager admin = CruiseManager.GetInstance();
+            admin.Start();
+=======
             ContinueInteractingWithMenu();
         }
 
@@ -100,6 +103,9 @@
                         break;
                 }
             }
+>>>>>>> ba6669bbe374c3c1684f4c2c2a8d5590d9539b0c
         }
+
+        
     }
 }
