@@ -58,6 +58,17 @@ namespace Cruise2Holiday {
 
         public static void DisplayTripsOnCruise(int cruiseId) {
 
+<<<<<<< HEAD
+=======
+        }
+
+        public static void DisplayCruisesOnSystem(List<Cruise> cruises) {
+            // Needs implementing
+            Console.WriteLine(String.Format("{0, -10} {1, -20}", "CruiseID", "Cruise Name"));
+            for (int i = 0; i < cruises.Count; i++) {
+                Console.WriteLine(String.Format("{0, -10} {1, -20}", cruises[i].CruiseId, cruises[i].CruiseName));
+            }
+>>>>>>> ba6669bbe374c3c1684f4c2c2a8d5590d9539b0c
         }
 
         public static void DisplayCruisesOnSystem(List<Cruise> cruises) {
@@ -90,6 +101,7 @@ namespace Cruise2Holiday {
                 Console.WriteLine(String.Format("{0, -10} {1, -20} {2, -20}", trips[i][0].TripId, trips[i][0].TripName, trips[i][0].Cost));
             }
         }
+<<<<<<< HEAD
 
         internal static void DisplayAddCruiseString() {
             Console.Clear();
@@ -188,5 +200,7 @@ namespace Cruise2Holiday {
         }
 
         
+=======
+>>>>>>> ba6669bbe374c3c1684f4c2c2a8d5590d9539b0c
     }
 }

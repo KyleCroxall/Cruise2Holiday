@@ -429,6 +429,7 @@ namespace Cruise2Holiday {
             return tripsOnCruise;
         }
 
+<<<<<<< HEAD:Cruise2Holiday/DatabaseManager.cs
         public static List<Passenger> GetPassengersOnCruise(int cruiseId) {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
             connectionStringBuilder.DataSource = "./Cruises.db";
@@ -455,6 +456,8 @@ namespace Cruise2Holiday {
             return passengers;
         }
 
+=======
+>>>>>>> ba6669bbe374c3c1684f4c2c2a8d5590d9539b0c:Cruise2Holiday/SqlCommands.cs
         public static string GetPortNameById(int portId) {
             var connectionStringBuilder = new SqliteConnectionStringBuilder();
             connectionStringBuilder.DataSource = "./Cruises.db";
