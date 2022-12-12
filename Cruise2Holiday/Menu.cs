@@ -61,7 +61,7 @@ namespace Cruise2Holiday {
         }
 
         public static void DisplayCruisesOnSystem(List<Cruise> cruises) {
-            // Needs implementing
+
             Console.WriteLine(String.Format("{0, -10} {1, -20}", "CruiseID", "Cruise Name"));
             for (int i = 0; i < cruises.Count; i++) {
                 Console.WriteLine(String.Format("{0, -10} {1, -20}", cruises[i].CruiseId, cruises[i].CruiseName));
